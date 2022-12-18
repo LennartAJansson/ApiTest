@@ -11,3 +11,7 @@ public interface IWeatherForecastsApi
 }
 
 //https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+
+//https://opendata-download-metobs.smhi.se/
+//https://restcountries.com/
+//https://restcountries.com/#api-endpoints-v3-language
