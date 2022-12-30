@@ -1,13 +1,29 @@
 ﻿namespace Contracts
 {
+    using System.Runtime.CompilerServices;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
 
+    //Since SMHI is using Unix dates which is a long, we need to convert it to a DateTime
+
+    public class UnixDateConverter : JsonConverter<DateTime>
+    {
+        //This will convert from a unix date to datetime when reading the json
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            => DateTime.UnixEpoch.AddMilliseconds(reader.GetInt64());
+
+        //This will convert to a unix date from datetime when writing the json
+        public override void Write(Utf8JsonWriter writer, DateTime dateTimeValue, JsonSerializerOptions options)
+            => writer.WriteNumberValue(((DateTimeOffset)dateTimeValue).ToUnixTimeSeconds());
+    }
+    
     public class SmhiTemperature
     {
         [JsonPropertyName("value")]
         public Value[]? Values { get; set; }
         [JsonPropertyName("updated")]
-        public long Updated { get; set; }
+        [JsonConverter(typeof(UnixDateConverter))]
+        public DateTime Updated { get; set; }
         [JsonPropertyName("parameter")]
         public Parameter? Parameter { get; set; }
         [JsonPropertyName("station")]
@@ -53,9 +69,11 @@
         [JsonPropertyName("key")]
         public string? Key { get; set; }
         [JsonPropertyName("from")]
-        public long From { get; set; }
+        [JsonConverter(typeof(UnixDateConverter))] 
+        public DateTime From { get; set; }
         [JsonPropertyName("to")]
-        public long To { get; set; }
+        [JsonConverter(typeof(UnixDateConverter))]
+        public DateTime To { get; set; }
         [JsonPropertyName("summary")]
         public string? Summary { get; set; }
         [JsonPropertyName("sampling")]
@@ -65,7 +83,8 @@
     public class Value
     {
         [JsonPropertyName("date")]
-        public long Date { get; set; }
+        [JsonConverter(typeof(UnixDateConverter))]
+        public DateTime Date { get; set; }
         [JsonPropertyName("value")]
         public string? Measured { get; set; }
         [JsonPropertyName("quality")]
@@ -75,9 +94,11 @@
     public class Position
     {
         [JsonPropertyName("from")]
-        public long From { get; set; }
+        [JsonConverter(typeof(UnixDateConverter))]
+        public DateTime From { get; set; }
         [JsonPropertyName("to")]
-        public long To { get; set; }
+        [JsonConverter(typeof(UnixDateConverter))]
+        public DateTime To { get; set; }
         [JsonPropertyName("height")]
         public float Height { get; set; }
         [JsonPropertyName("latitude")]
