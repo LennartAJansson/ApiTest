@@ -10,14 +10,13 @@ using (host)
 {
     await host.StartAsync();
 
-    //Trigger any threads/objects that should be executed
     using (var scope = host.Services.CreateScope())
     {
         var api = scope.ServiceProvider.GetRequiredService<ICountryApiClient>();
         IEnumerable<Country> countries = await api.GetCountries();
+        //Do something with the data here
     }
 
-    //Stay and wait for the shutdown signalling
     await host.WaitForShutdownAsync();
 }
 

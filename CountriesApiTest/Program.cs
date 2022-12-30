@@ -10,5 +10,6 @@ internal class Program
         ICountryApiClient countriesApi = RestService.For<ICountryApiClient>("https://restcountries.com/");
 
         IEnumerable<Country> countries = await countriesApi.GetCountries();
+        //Do something with the data here
     }
 }

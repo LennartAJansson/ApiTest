@@ -1,14 +1,13 @@
 ﻿namespace PlainSmhiApiTest;
 
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using Contracts;
 
 internal class Program
 {
-    private static async Task Main(string[] args)
+    private static async Task Main()
     {
         using HttpClient client = new HttpClient();
 

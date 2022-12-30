@@ -7,7 +7,7 @@ using Refit;
 
 internal class Program
 {
-    private static async Task Main(string[] args)
+    private static async Task Main()
     {
         ISmhiApiClient smhiApi = RestService.For<ISmhiApiClient>("https://opendata-download-metobs.smhi.se/api/version/1.0/");
 

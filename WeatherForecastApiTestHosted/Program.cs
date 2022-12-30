@@ -2,8 +2,6 @@
 
 using Refit;
 
-using WeatherForecastApiTestHosted;
-
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) => AddServices(context, services))
     .Build();
@@ -12,21 +10,17 @@ using (host)
 {
     await host.StartAsync();
 
-    //Trigger any threads/objects that should be executed
-    using (var scope = host.Services.CreateScope())
+    using (IServiceScope scope = host.Services.CreateScope())
     {
-        var worker = scope.ServiceProvider.GetRequiredService<Worker>();
-        IEnumerable<WeatherForecast> forecasts = await worker.GetWeatherForecasts();
-        WeatherForecast forecast = await worker.GetWeatherForecast(1);
+        IWeatherForecastsApiClient api = scope.ServiceProvider.GetRequiredService<IWeatherForecastsApiClient>();
+        IEnumerable<WeatherForecast> forecasts = await api.GetForecasts();
+        WeatherForecast forecast = await api.GetForecast(1);
+        //Do something with the data here
     }
 
-    //Stay and wait for the shutdown signalling
     await host.WaitForShutdownAsync();
 }
 
-static void AddServices(HostBuilderContext context, IServiceCollection services)
-{
-    services.AddTransient<Worker>();
-    _ = services.AddRefitClient<IWeatherForecastsApiClient>()
+static void AddServices(HostBuilderContext context, IServiceCollection services) 
+    => _ = services.AddRefitClient<IWeatherForecastsApiClient>()
         .ConfigureHttpClient(c => c.BaseAddress = new Uri(context.Configuration.GetConnectionString("WeatherForecastApiUrl")));
-}

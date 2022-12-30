@@ -9,7 +9,6 @@ using (host)
 {
     await host.StartAsync();
 
-    //Trigger any threads/objects that should be executed
     using (var scope = host.Services.CreateScope())
     {
         var api = scope.ServiceProvider.GetRequiredService<ISmhiApiClient>();
@@ -24,11 +23,8 @@ using (host)
         }
     }
 
-    //Stay and wait for the shutdown signalling
     await host.WaitForShutdownAsync();
 }
 void AddServices(HostBuilderContext context, IServiceCollection services)
-{
-    _ = services.AddRefitClient<ISmhiApiClient>()
+    => _ = services.AddRefitClient<ISmhiApiClient>()
         .ConfigureHttpClient(c => c.BaseAddress = new Uri(context.Configuration.GetConnectionString("SmhiApiUrl")));
-}
