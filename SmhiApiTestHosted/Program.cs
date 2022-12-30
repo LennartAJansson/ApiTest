@@ -13,7 +13,15 @@ using (host)
     using (var scope = host.Services.CreateScope())
     {
         var api = scope.ServiceProvider.GetRequiredService<ISmhiApiClient>();
-        SmhiTemperature reports = await api.GetLatestMonths();
+        SmhiTemperature temperatures = await api.GetLatestMonths();
+        if (temperatures is not null && temperatures.Values is not null)
+        {
+            await Console.Out.WriteLineAsync($"{temperatures?.Station?.Name} {temperatures?.Parameter?.Name}:");
+            foreach (Value? value in temperatures!.Values)
+            {
+                await Console.Out.WriteLineAsync($"{value.Date}\t{value.Measured} {temperatures?.Parameter?.Unit}");
+            }
+        }
     }
 
     //Stay and wait for the shutdown signalling
