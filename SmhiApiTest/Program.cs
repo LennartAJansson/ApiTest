@@ -3,21 +3,30 @@
 using System.Threading.Tasks;
 
 using Contracts;
+
 using Refit;
 
 internal class Program
 {
     private static async Task Main()
     {
-        ISmhiApiClient smhiApi = RestService.For<ISmhiApiClient>("https://opendata-download-metobs.smhi.se/api/version/1.0/");
+        //If you need support for decompression:
+        //var handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate };
+        //var client = new HttpClient(handler)
+        //{
+        //    BaseAddress = new Uri("https://opendata-download-metobs.smhi.se")
+        //};
+        //ISmhiApiClient smhiApi = RestService.For<ISmhiApiClient>(client);
 
-        SmhiTemperature? temperatures = await smhiApi.GetLatestMonths();
+        ISmhiObservationApiClient smhiApi = RestService.For<ISmhiObservationApiClient>("https://opendata-download-metobs.smhi.se");
+
+        ObservationsForPeriod? temperatures = await smhiApi.GetObservationsForPeriod("1.0", "1", "107420", "latest-months");
         if (temperatures is not null && temperatures.Values is not null)
         {
-            await Console.Out.WriteLineAsync($"{temperatures?.Station?.Name} {temperatures?.Parameter?.Name}:");
-            foreach (Value? value in temperatures!.Values)
+            Console.WriteLine($"{temperatures?.Station?.Name} {temperatures?.Parameter?.Name}:");
+            foreach (Observation? value in temperatures!.Values)
             {
-                await Console.Out.WriteLineAsync($"{value.Date}\t{value.Measured} {temperatures?.Parameter?.Unit}");
+                Console.WriteLine($"{value.Date}\t{value.Measured} {temperatures?.Parameter?.Unit}");
             }
         }
     }

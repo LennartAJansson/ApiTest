@@ -41,7 +41,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plain", "Plain", "{32381C78
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainWeatherForecastApiTest", "PlainWeatherForecastApiTest\PlainWeatherForecastApiTest.csproj", "{7763DFB0-B60E-482E-B2A9-78CAC9221239}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainSmhiApiTest", "PlainSmhiApiTest\PlainSmhiApiTest.csproj", "{6E94D4DB-49D2-4D1C-B75D-F73645DF3513}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainSmhiApiTest", "PlainSmhiApiTest\PlainSmhiApiTest.csproj", "{6E94D4DB-49D2-4D1C-B75D-F73645DF3513}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmhiApiServices", "SmhiApiServices\SmhiApiServices.csproj", "{259ACC01-BF26-436F-AF2D-1C17822EC8A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +91,10 @@ Global
 		{6E94D4DB-49D2-4D1C-B75D-F73645DF3513}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E94D4DB-49D2-4D1C-B75D-F73645DF3513}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E94D4DB-49D2-4D1C-B75D-F73645DF3513}.Release|Any CPU.Build.0 = Release|Any CPU
+		{259ACC01-BF26-436F-AF2D-1C17822EC8A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{259ACC01-BF26-436F-AF2D-1C17822EC8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{259ACC01-BF26-436F-AF2D-1C17822EC8A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{259ACC01-BF26-436F-AF2D-1C17822EC8A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +116,7 @@ Global
 		{32381C78-B1D2-47F5-8F21-A4117FBFE44E} = {421BABFA-21D4-4BB7-94F6-862192A3ECCE}
 		{7763DFB0-B60E-482E-B2A9-78CAC9221239} = {1C540563-8C4F-4263-AF84-14AECEE8B769}
 		{6E94D4DB-49D2-4D1C-B75D-F73645DF3513} = {714A3AEA-D0C4-4DE4-9B60-EA9B1C268FD8}
+		{259ACC01-BF26-436F-AF2D-1C17822EC8A5} = {E557E439-BF7E-4E8C-BED7-5417FD5F319B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B820F5D8-3A47-40AE-A279-B0775D80ED2A}

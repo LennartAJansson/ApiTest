@@ -1,5 +1,7 @@
 ﻿using Contracts;
-using Refit;
+using Contracts.Model;
+
+using SmhiApiServices;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) => AddServices(context, services))
@@ -9,22 +11,36 @@ using (host)
 {
     await host.StartAsync();
 
-    using (var scope = host.Services.CreateScope())
+    using (IServiceScope scope = host.Services.CreateScope())
     {
-        var api = scope.ServiceProvider.GetRequiredService<ISmhiApiClient>();
-        SmhiTemperature temperatures = await api.GetLatestMonths();
+        ISmhiObservationServices service = scope.ServiceProvider.GetRequiredService<ISmhiObservationServices>();
+        ObservationsForPeriod temperatures = await service.GetObservationsForPeriod("1.0", "1", "107420", "latest-months");
         if (temperatures is not null && temperatures.Values is not null)
         {
-            await Console.Out.WriteLineAsync($"{temperatures?.Station?.Name} {temperatures?.Parameter?.Name}:");
-            foreach (Value? value in temperatures!.Values)
+            Console.WriteLine($"{temperatures?.Station?.Name} {temperatures?.Parameter?.Name}:");
+            foreach (Observation? value in temperatures!.Values)
             {
-                await Console.Out.WriteLineAsync($"{value.Date}\t{value.Measured} {temperatures?.Parameter?.Unit}");
+                Console.WriteLine($"{value.Date}\t{value.Measured} {temperatures?.Parameter?.Unit}");
+            }
+        }
+
+        var forecastService = scope.ServiceProvider.GetRequiredService<ISmhiForecastServices>();
+        SmhiForecast forecast = await forecastService.GetForecasts("pmp3g", "2", "point", "17.160666", "60.716082");
+        if (forecast is not null && forecast!.TimeSeries!.Any())
+        {
+            foreach (var timeSerie in forecast!.TimeSeries!)
+            {
+                var time = timeSerie.ValidTime;
+                var tValues = timeSerie?.Parameters?.Single(p => p.Name == "t").Values;
+                var tUnit = timeSerie?.Parameters?.Single(p => p.Name == "t").Unit;
+                var mslValues = timeSerie?.Parameters?.Single(p => p.Name == "msl").Values;
+                var mslUnit = timeSerie?.Parameters?.Single(p => p.Name == "msl").Unit;
+                Console.WriteLine($"{time}{tValues?.First(),8:N0} {tUnit}\t\t{mslValues?.First(),8:N0} {mslUnit}");
             }
         }
     }
 
     await host.WaitForShutdownAsync();
 }
-void AddServices(HostBuilderContext context, IServiceCollection services)
-    => _ = services.AddRefitClient<ISmhiApiClient>()
-        .ConfigureHttpClient(c => c.BaseAddress = new Uri(context.Configuration.GetConnectionString("SmhiApiUrl")));
+void AddServices(HostBuilderContext context, IServiceCollection services) 
+    => services.AddSmhiSupport(() => context.Configuration);

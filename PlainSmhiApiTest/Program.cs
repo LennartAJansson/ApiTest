@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using Contracts;
+using Contracts.Converters;
 
 internal class Program
 {
@@ -17,11 +18,11 @@ internal class Program
             var options = new JsonSerializerOptions();
             options.Converters.Add(new UnixDateConverter());
 
-            SmhiTemperature? temperatures = JsonSerializer.Deserialize<SmhiTemperature>(json, options);
+            ObservationsForPeriod? temperatures = JsonSerializer.Deserialize<ObservationsForPeriod>(json, options);
             if (temperatures is not null && temperatures.Values is not null)
             {
                 await Console.Out.WriteLineAsync($"{temperatures?.Station?.Name} {temperatures?.Parameter?.Name}:");
-                foreach (Value? value in temperatures!.Values)
+                foreach (Observation? value in temperatures!.Values)
                 {
                     await Console.Out.WriteLineAsync($"{value.Date}\t{value.Measured} {temperatures?.Parameter?.Unit}");
                 }
