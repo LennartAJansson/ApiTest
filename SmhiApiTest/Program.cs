@@ -6,6 +6,9 @@ using Contracts;
 
 using Refit;
 
+using SmhiApiServices.Clients;
+using SmhiApiServices.Contracts;
+
 internal class Program
 {
     private static async Task Main()

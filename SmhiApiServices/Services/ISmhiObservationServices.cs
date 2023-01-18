@@ -1,6 +1,6 @@
-﻿namespace SmhiApiServices;
+﻿namespace SmhiApiServices.Services;
 
-using Contracts;
+using SmhiApiServices.Contracts;
 
 public interface ISmhiObservationServices
 {

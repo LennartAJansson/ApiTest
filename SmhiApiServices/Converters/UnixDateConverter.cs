@@ -1,4 +1,4 @@
-﻿namespace Contracts.Converters
+﻿namespace SmhiApiServices.Converters
 {
     using System.Text.Json;
     using System.Text.Json.Serialization;

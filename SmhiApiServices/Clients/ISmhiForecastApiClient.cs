@@ -1,8 +1,8 @@
-﻿namespace Contracts;
-
-using Contracts.Model;
+﻿namespace SmhiApiServices.Clients;
 
 using Refit;
+
+using SmhiApiServices.Contracts;
 
 public interface ISmhiForecastApiClient
 {

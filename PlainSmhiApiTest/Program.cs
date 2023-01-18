@@ -3,8 +3,8 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 
-using Contracts;
-using Contracts.Converters;
+using SmhiApiServices.Contracts;
+using SmhiApiServices.Converters;
 
 internal class Program
 {

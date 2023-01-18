@@ -1,7 +1,6 @@
-﻿using Contracts;
-using Contracts.Model;
-
-using SmhiApiServices;
+﻿using SmhiApiServices;
+using SmhiApiServices.Contracts;
+using SmhiApiServices.Services;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) => AddServices(context, services))

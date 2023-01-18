@@ -1,6 +1,8 @@
-﻿namespace Contracts;
+﻿namespace SmhiApiServices.Clients;
 
 using Refit;
+
+using SmhiApiServices.Contracts;
 
 public interface ISmhiObservationApiClient
 {

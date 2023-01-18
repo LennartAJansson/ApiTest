@@ -1,11 +1,11 @@
-﻿namespace SmhiApiServices;
+﻿namespace SmhiApiServices.Services;
 
 using System.Threading.Tasks;
 
-using Contracts;
-using Contracts.Model;
+using SmhiApiServices.Clients;
+using SmhiApiServices.Contracts;
 
-public class SmhiForecastServices: ISmhiForecastServices
+public class SmhiForecastServices : ISmhiForecastServices
 {
     private readonly ISmhiForecastApiClient client;
 

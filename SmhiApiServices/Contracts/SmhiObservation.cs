@@ -1,8 +1,8 @@
-﻿namespace Contracts;
+﻿namespace SmhiApiServices.Contracts;
 
 using System.Text.Json.Serialization;
 
-using Contracts.Converters;
+using SmhiApiServices.Converters;
 
 public class ObservationsForPeriod
 {
@@ -12,7 +12,7 @@ public class ObservationsForPeriod
     [JsonConverter(typeof(UnixDateConverter))]
     public DateTime Updated { get; set; }
     [JsonPropertyName("parameter")]
-    public Parameter? Parameter { get; set; }
+    public Parameter2? Parameter { get; set; }
     [JsonPropertyName("station")]
     public Station? Station { get; set; }
     [JsonPropertyName("period")]
@@ -23,7 +23,7 @@ public class ObservationsForPeriod
     public Link[]? Links { get; set; }
 }
 
-public class Parameter
+public class Parameter2
 {
     [JsonPropertyName("key")]
     public string? Key { get; set; }

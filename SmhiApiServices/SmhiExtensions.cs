@@ -1,11 +1,12 @@
 ﻿namespace SmhiApiServices;
 
-using Contracts;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Refit;
+
+using SmhiApiServices.Clients;
+using SmhiApiServices.Services;
 
 public static class SmhiExtensions
 {

@@ -1,6 +1,6 @@
-﻿namespace SmhiApiServices;
+﻿namespace SmhiApiServices.Services;
 
-using Contracts.Model;
+using SmhiApiServices.Contracts;
 
 public interface ISmhiForecastServices
 {

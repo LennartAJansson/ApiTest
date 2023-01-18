@@ -1,8 +1,8 @@
-﻿namespace Contracts.Model;
+﻿namespace SmhiApiServices.Contracts;
 using System;
 using System.Text.Json.Serialization;
 
-using Contracts.Converters;
+using SmhiApiServices.Converters;
 
 public class SmhiForecast
 {
@@ -29,10 +29,10 @@ public class Timeserie
     [JsonPropertyName("validTime")]
     public DateTime ValidTime { get; set; }
     [JsonPropertyName("parameters")]
-    public Parameter[]? Parameters { get; set; }
+    public Parameter1[]? Parameters { get; set; }
 }
 
-public class Parameter
+public class Parameter1
 {
     [JsonPropertyName("name")]
     public string? Name { get; set; }

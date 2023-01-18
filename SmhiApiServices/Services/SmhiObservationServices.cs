@@ -1,8 +1,10 @@
-﻿namespace SmhiApiServices;
+﻿namespace SmhiApiServices.Services;
 
 using System.Threading.Tasks;
 
-using Contracts;
+using SmhiApiServices.Contracts;
+
+using SmhiApiServices.Clients;
 
 public class SmhiObservationServices : ISmhiObservationServices
 {
