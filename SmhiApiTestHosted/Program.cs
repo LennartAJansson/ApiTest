@@ -2,6 +2,8 @@
 using SmhiApiServices.Contracts;
 using SmhiApiServices.Services;
 
+//This example is using Dependency Injection
+
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) => AddServices(context, services))
     .Build();

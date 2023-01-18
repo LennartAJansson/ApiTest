@@ -12,8 +12,8 @@
 		<PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<ProjectReference Include="..\Contracts\Contracts.csproj" />
-	</ItemGroup>
+	</ItemGroup>-->
 
 </Project>

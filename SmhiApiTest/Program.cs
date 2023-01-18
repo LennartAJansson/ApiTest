@@ -2,13 +2,12 @@
 
 using System.Threading.Tasks;
 
-using Contracts;
-
 using Refit;
 
 using SmhiApiServices.Clients;
 using SmhiApiServices.Contracts;
 
+//This example is not using Dependency Injection
 internal class Program
 {
     private static async Task Main()
