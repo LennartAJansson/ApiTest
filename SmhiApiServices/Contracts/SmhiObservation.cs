@@ -12,7 +12,7 @@ public class ObservationsForPeriod
     [JsonConverter(typeof(UnixDateConverter))]
     public DateTime Updated { get; set; }
     [JsonPropertyName("parameter")]
-    public Parameter2? Parameter { get; set; }
+    public ObservationParameter? Parameter { get; set; }
     [JsonPropertyName("station")]
     public Station? Station { get; set; }
     [JsonPropertyName("period")]
@@ -23,7 +23,7 @@ public class ObservationsForPeriod
     public Link[]? Links { get; set; }
 }
 
-public class Parameter2
+public class ObservationParameter
 {
     [JsonPropertyName("key")]
     public string? Key { get; set; }

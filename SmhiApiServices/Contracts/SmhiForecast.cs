@@ -29,10 +29,10 @@ public class Timeserie
     [JsonPropertyName("validTime")]
     public DateTime ValidTime { get; set; }
     [JsonPropertyName("parameters")]
-    public Parameter1[]? Parameters { get; set; }
+    public ForecastParameter[]? Parameters { get; set; }
 }
 
-public class Parameter1
+public class ForecastParameter
 {
     [JsonPropertyName("name")]
     public string? Name { get; set; }
