@@ -1,5 +1,6 @@
 ﻿using SmhiApiServices;
 using SmhiApiServices.Contracts;
+using SmhiApiServices.Models;
 using SmhiApiServices.Services;
 
 //This example is using Dependency Injection
@@ -25,23 +26,20 @@ using (host)
             }
         }
 
-        var forecastService = scope.ServiceProvider.GetRequiredService<ISmhiForecastServices>();
-        SmhiForecast forecast = await forecastService.GetForecasts("pmp3g", "2", "point", "17.160666", "60.716082");
-        if (forecast is not null && forecast!.TimeSeries!.Any())
+        ISmhiForecastServices forecastService = scope.ServiceProvider.GetRequiredService<ISmhiForecastServices>();
+        Forecast forecast = await forecastService.GetForecasts("pmp3g", "2", "point", "17.160666", "60.716082");
+        if (forecast is not null && forecast!.Values!.Any())
         {
-            foreach (var timeSerie in forecast!.TimeSeries!)
+            foreach (Value values in forecast.Values!)
             {
-                var time = timeSerie.ValidTime;
-                var tValues = timeSerie?.Parameters?.Single(p => p.Name == "t").Values;
-                var tUnit = timeSerie?.Parameters?.Single(p => p.Name == "t").Unit;
-                var mslValues = timeSerie?.Parameters?.Single(p => p.Name == "msl").Values;
-                var mslUnit = timeSerie?.Parameters?.Single(p => p.Name == "msl").Unit;
-                Console.WriteLine($"{time}{tValues?.First(),8:N0} {tUnit}\t\t{mslValues?.First(),8:N0} {mslUnit}");
+                DateTime time = values.At;
+                Console.WriteLine($"{time}{values.Temperature,8:N0} {values.TemperatureText}\t\t{values.Pressure,8:N0} {values.PressureText}");
             }
         }
     }
 
     await host.WaitForShutdownAsync();
 }
-void AddServices(HostBuilderContext context, IServiceCollection services) 
+void AddServices(HostBuilderContext context, IServiceCollection services)
     => services.AddSmhiSupport(() => context.Configuration);
+

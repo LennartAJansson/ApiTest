@@ -4,18 +4,32 @@ using System.Threading.Tasks;
 
 using SmhiApiServices.Clients;
 using SmhiApiServices.Contracts;
+using SmhiApiServices.Models;
 
 public class SmhiForecastServices : ISmhiForecastServices
 {
     private readonly ISmhiForecastApiClient client;
 
-    public SmhiForecastServices(ISmhiForecastApiClient client)
-    {
-        this.client = client;
-    }
+    public SmhiForecastServices(ISmhiForecastApiClient client) => this.client = client;
 
-    public async Task<SmhiForecast> GetForecasts(string category, string version, string geotype, string longitude, string latitude)
+    public async Task<Forecast> GetForecasts(string category, string version, string geotype, string longitude, string latitude)
     {
-        return await client.GetForecasts(category, version, geotype, longitude, latitude);
+        SmhiForecast forecast = await client.GetForecasts(category, version, geotype, longitude, latitude);
+        //TODO Check availability of different valuse to return...
+        return new()
+        {
+            Created = forecast.ApprovedTime,
+            Values = forecast.TimeSeries
+            .Select(t => new Value
+            {
+                At = t.ValidTime,
+                PressureText = t.Parameters?.SingleOrDefault(p => p.Name == "msl")?.Unit ?? "",
+                Pressure = (float)(t.Parameters?.SingleOrDefault(p => p.Name == "msl")?.Values?.FirstOrDefault()),
+                TemperatureText = t.Parameters?.SingleOrDefault(p => p.Name == "t")?.Unit ?? "",
+                Temperature = (float)(t.Parameters?.SingleOrDefault(p => p.Name == "t")?.Values?.FirstOrDefault()),
+            })
+            .ToList()
+        };
+
     }
 }
