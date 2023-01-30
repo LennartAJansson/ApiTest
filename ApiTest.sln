@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmhiApiServices", "SmhiApiS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common Services, Clients and Contracts", "Common Services, Clients and Contracts", "{B8557CA0-271E-4EA7-B591-AF6CDF38C5EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiForecasts", "MauiForecasts\MauiForecasts.csproj", "{2D909ECC-107A-4CBD-8DA7-E38540E141A5}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherForecastApiWithApiKey", "WeatherForecastApiWithApiKey\WeatherForecastApiWithApiKey.csproj", "{CDCB6D34-F3F5-4424-884B-A3D92872A3D7}"
 EndProject
 Global
@@ -99,10 +101,6 @@ Global
 		{259ACC01-BF26-436F-AF2D-1C17822EC8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{259ACC01-BF26-436F-AF2D-1C17822EC8A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{259ACC01-BF26-436F-AF2D-1C17822EC8A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CDCB6D34-F3F5-4424-884B-A3D92872A3D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDCB6D34-F3F5-4424-884B-A3D92872A3D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDCB6D34-F3F5-4424-884B-A3D92872A3D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDCB6D34-F3F5-4424-884B-A3D92872A3D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,7 +124,6 @@ Global
 		{6E94D4DB-49D2-4D1C-B75D-F73645DF3513} = {714A3AEA-D0C4-4DE4-9B60-EA9B1C268FD8}
 		{259ACC01-BF26-436F-AF2D-1C17822EC8A5} = {B8557CA0-271E-4EA7-B591-AF6CDF38C5EF}
 		{B8557CA0-271E-4EA7-B591-AF6CDF38C5EF} = {5E2A3E1C-38EE-41D6-8B94-52DBB6E05254}
-		{CDCB6D34-F3F5-4424-884B-A3D92872A3D7} = {0EB45B96-684E-4FE3-B860-AD32A06062E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B820F5D8-3A47-40AE-A279-B0775D80ED2A}
