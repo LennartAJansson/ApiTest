@@ -1,9 +1,11 @@
 ﻿namespace SmhiApiServices.Models;
-using System;
-using System.Collections.Generic;
 
-public sealed class Forecast
+using CommunityToolkit.Mvvm.ComponentModel;
+
+using System;
+
+public sealed class Forecast : ObservableObject
 {
     public DateTime Created { get; set; }
-    public ICollection<Value>? Values { get; set; }
+    public Values? Values { get; set; }
 }

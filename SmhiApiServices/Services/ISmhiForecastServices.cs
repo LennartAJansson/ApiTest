@@ -1,5 +1,6 @@
 ﻿namespace SmhiApiServices.Services;
 
+using SmhiApiServices.Contracts;
 using SmhiApiServices.Models;
 
 public interface ISmhiForecastServices

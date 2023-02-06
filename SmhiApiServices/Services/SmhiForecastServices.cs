@@ -1,10 +1,10 @@
 ﻿namespace SmhiApiServices.Services;
 
-using System.Threading.Tasks;
-
 using SmhiApiServices.Clients;
 using SmhiApiServices.Contracts;
 using SmhiApiServices.Models;
+
+using System.Threading.Tasks;
 
 public class SmhiForecastServices : ISmhiForecastServices
 {
@@ -19,7 +19,7 @@ public class SmhiForecastServices : ISmhiForecastServices
         return new()
         {
             Created = forecast.ApprovedTime,
-            Values = forecast.TimeSeries
+            Values = new Values(forecast.TimeSeries
             .Select(t => new Value
             {
                 At = t.ValidTime,
@@ -27,8 +27,7 @@ public class SmhiForecastServices : ISmhiForecastServices
                 Pressure = (float)(t.Parameters?.SingleOrDefault(p => p.Name == "msl")?.Values?.FirstOrDefault()),
                 TemperatureText = t.Parameters?.SingleOrDefault(p => p.Name == "t")?.Unit ?? "",
                 Temperature = (float)(t.Parameters?.SingleOrDefault(p => p.Name == "t")?.Values?.FirstOrDefault()),
-            })
-            .ToList()
+            }))
         };
 
     }
