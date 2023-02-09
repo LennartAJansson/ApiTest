@@ -1,50 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:SmhiApiServices.Models;assembly=SmhiApiServices"
              xmlns:vm="clr-namespace:MauiForecasts.ViewModels"
              x:Class="MauiForecasts.MainPage"
              x:DataType="vm:VmForecasts">
     <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="StartAndExpand">
-
-            <Button
-                x:Name="RefreshBtn"
-                Command="{Binding GetForecastsCommand}"
-                Text="Refresh"
-                SemanticProperties.Hint="Refresh weather forecasts from SMHI"
-                HorizontalOptions="StartAndExpand" />
-
-            <ListView ItemsSource="{Binding Values}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="120"/>
-                                </Grid.ColumnDefinitions>
-                                <Label x:DataType="models:Value" Grid.Column="0" Text="{Binding At}"/>
-                                <StackLayout Orientation="Horizontal" Grid.Column="1" >
-                                    <Label x:DataType="models:Value" Text="{Binding Temperature}" Margin="0,0,8,0"/>
-                                    <Label x:DataType="models:Value" Text="{Binding TemperatureText}"/>
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal" Grid.Column="2" >
-                                    <Label x:DataType="models:Value" Text="{Binding Pressure}" Margin="0,0,8,0"/>
-                                    <Label x:DataType="models:Value" Text="{Binding PressureText}"/>
-                                </StackLayout>
-                            </Grid>
-                        </ViewCell>
+        <VerticalStackLayout VerticalOptions="StartAndExpand">
+            <Button Command="{Binding GetForecastsCommand}" Text="Refresh" HorizontalOptions="StartAndExpand" />
+            <CollectionView ItemsSource="{Binding Values}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Value">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="120"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="{Binding At, StringFormat='{0:yyyy-MM-dd hh:mm}'}"/>
+                            <StackLayout Orientation="Horizontal" Grid.Column="1" >
+                                <Label Text="{Binding Temperature, StringFormat='{0:F1}'}" Margin="0,0,8,0"/>
+                                <Label Text="{Binding TemperatureText}"/>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal" Grid.Column="2" >
+                                <Label Text="{Binding Pressure, StringFormat='{0:F1}'}" Margin="0,0,8,0"/>
+                                <Label Text="{Binding PressureText}"/>
+                            </StackLayout>
+                        </Grid>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

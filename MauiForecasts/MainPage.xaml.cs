@@ -9,7 +9,5 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         BindingContext = vm;
     }
-
-    //private async void OnCounterClicked(object sender, EventArgs e) => await ((VmForecasts)BindingContext).GetForecasts();
 }
 
