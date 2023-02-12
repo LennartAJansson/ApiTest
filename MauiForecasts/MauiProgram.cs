@@ -27,7 +27,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
         builder.Configuration.AddJsonFile("appsettings.json");
-        builder.Services.AddTransient<MainPage, VmForecasts>();
+        builder.Services.AddTransient<MainPage, MainViewModel>();
         builder.Services.AddSmhiSupport(() => builder.Configuration);
 
 #if DEBUG

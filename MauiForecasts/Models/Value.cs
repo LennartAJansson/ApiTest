@@ -1,9 +1,9 @@
-﻿namespace SmhiApiServices.Models;
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿namespace MauiForecasts.Models;
 
 using System;
 using System.Collections.ObjectModel;
+
+using CommunityToolkit.Mvvm.ComponentModel;
 
 public sealed class Value : ObservableObject
 {

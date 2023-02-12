@@ -4,7 +4,7 @@ using MauiForecasts.ViewModels;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage(VmForecasts vm)
+    public MainPage(MainViewModel vm)
     {
         InitializeComponent();
         BindingContext = vm;
