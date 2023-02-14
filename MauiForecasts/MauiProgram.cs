@@ -26,7 +26,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        builder.Configuration.AddJsonFile("appsettings.json");
+            
+        var assembly = typeof(App).GetTypeInfo().Assembly;
+        builder.Configuration.AddJsonFile(new EmbeddedFileProvider(assembly), "appsettings.json", optional: false, false);
+        //builder.Configuration.AddJsonFile("appsettings.json");
         builder.Services.AddTransient<MainPage, MainViewModel>();
         builder.Services.AddSmhiSupport(() => builder.Configuration);
 
