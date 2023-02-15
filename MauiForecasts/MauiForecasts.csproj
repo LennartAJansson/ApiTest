@@ -49,15 +49,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Models\Class1.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="appsettings.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="appsettings.json">
+		<EmbeddedResource Include="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -65,6 +69,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="4.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 
