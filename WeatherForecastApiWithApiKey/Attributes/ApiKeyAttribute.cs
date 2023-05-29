@@ -13,46 +13,40 @@ public class ApiKeyAttribute : Attribute, IAsyncActionFilter, IEndpointFilter
     //This is for Minimal Api's
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
-        var result = await CheckAndVerifyApiKey(context.HttpContext);
+        IResult result = await CheckAndVerifyApiKey(context.HttpContext);
 
-        if (result is Ok)
-            return await next.Invoke(context);
-        else
-        {
-            return result;
-        }
+        return result is Ok ? await next.Invoke(context) : result;
 
     }
 
     //This is for Controllers
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var result = await CheckAndVerifyApiKey(context.HttpContext);
+        IResult result = await CheckAndVerifyApiKey(context.HttpContext);
 
         if (result is Ok)
-            await next();
+        {
+            _ = await next();
+        }
         else
         {
             await result.ExecuteAsync(context.HttpContext);
         }
     }
 
-    private Task<IResult> CheckAndVerifyApiKey(HttpContext context)
+    private static Task<IResult> CheckAndVerifyApiKey(HttpContext context)
     {
-        var appSettings = context.RequestServices.GetRequiredService<IConfiguration>();
-        var apiKey = appSettings.GetValue<string>(APIKEYNAME);
+        IConfiguration appSettings = context.RequestServices.GetRequiredService<IConfiguration>();
+        string? apiKey = appSettings.GetValue<string>(APIKEYNAME);
 
-        if (!context.Request.Headers.TryGetValue(HEADERNAME, out var extractedApiKey))
+        if (!context.Request.Headers.TryGetValue(HEADERNAME, out Microsoft.Extensions.Primitives.StringValues extractedApiKey))
         {
             return Task.FromResult(Results.Json(new { StatusCode = 401, Content = "Api Key was not provided. (Using ApiKeyAttribute)" }, statusCode: 401));
         }
 
-        if (apiKey is null || !apiKey.Equals(extractedApiKey))
-        {
-            return Task.FromResult(Results.Json(new { StatusCode = 401, Content = "Api Key was invalid. (Using ApiKeyAttribute)" }, statusCode: 401));
-        }
-
-        return Task.FromResult(Results.Ok());
+        return apiKey is null || !apiKey.Equals(extractedApiKey)
+            ? Task.FromResult(Results.Json(new { StatusCode = 401, Content = "Api Key was invalid. (Using ApiKeyAttribute)" }, statusCode: 401))
+            : Task.FromResult(Results.Ok());
     }
 }
 
@@ -62,7 +56,7 @@ public static class MinimalApiExtensions
     private static readonly IEndpointFilter _apiKeyMetadata = new ApiKeyAttribute();
     public static TBuilder UseApiKey<TBuilder>(this TBuilder builder) where TBuilder : IEndpointConventionBuilder
     {
-        builder.AddEndpointFilter(_apiKeyMetadata);
+        _ = builder.AddEndpointFilter(_apiKeyMetadata);
 
         return builder;
     }

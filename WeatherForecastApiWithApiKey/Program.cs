@@ -1,25 +1,24 @@
 namespace WeatherForecastApiWithApiKey;
 
-using WeatherForecastApiWithApiKey.Controllers;
+using Contracts;
 
 using Microsoft.OpenApi.Models;
 
 using WeatherForecastApiWithApiKey.Attributes;
-using WeatherForecastApiWithApiKey.Middleware;
 
 public class Program
 {
     public static void Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddAuthorization();
-        builder.Services.AddControllers();
+        _ = builder.Services.AddAuthorization();
+        _ = builder.Services.AddControllers();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen(c =>
+        _ = builder.Services.AddEndpointsApiExplorer();
+        _ = builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "ServiceName", Version = "1" });
             c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
@@ -31,7 +30,7 @@ public class Program
                 Scheme = "ApiKeyScheme"
             });
 
-            var key = new OpenApiSecurityScheme()
+            OpenApiSecurityScheme key = new()
             {
                 Reference = new OpenApiReference
                 {
@@ -41,48 +40,64 @@ public class Program
                 In = ParameterLocation.Header
             };
 
-            var requirement = new OpenApiSecurityRequirement { { key, new List<string>() } };
+            OpenApiSecurityRequirement requirement = new() { { key, new List<string>() } };
 
             c.AddSecurityRequirement(requirement);
         });
 
-        var app = builder.Build();
+        WebApplication app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            _ = app.UseSwagger();
+            _ = app.UseSwaggerUI();
         }
 
         //app.UseMiddleware<ApiKeyMiddleware>();
-        app.UseHttpsRedirection();
+        _ = app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        _ = app.UseAuthorization();
 
-        var summaries = new[]
+        string[] summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        app.MapGroup("/weatherforecast")
-            .MapGet("",(HttpContext httpContext) =>
-            {
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = summaries[Random.Shared.Next(summaries.Length)]
-                    })
-                    .ToArray();
-                return forecast;
-            })
-            .WithName("GetWeatherForecast")
-            .UseApiKey()
-            .WithOpenApi();
+        RouteGroupBuilder group = app.MapGroup("/weatherforecast")
+            .WithTags(nameof(WeatherForecast));
 
-        app.MapControllers();
+        _ = group.MapGet("/GetAll/", (HttpContext httpContext) =>
+        {
+            WeatherForecast[] forecast = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Id = index,
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = summaries[Random.Shared.Next(summaries.Length)]
+            })
+            .ToArray();
+            return forecast;
+        })
+        .WithName("GetAll")
+        .UseApiKey()
+        .WithOpenApi();
+        _ = group.MapGet("/GetById/{id}", (HttpContext httpContext, int id) =>
+        {
+            WeatherForecast forecast = new()
+            {
+                Id = id,
+                Date = DateTime.Now.AddDays(id),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = summaries[Random.Shared.Next(summaries.Length)]
+            };
+            return forecast;
+        })
+        .WithName("GetById")
+        .UseApiKey()
+        .WithOpenApi();
+
+        _ = app.MapControllers();
         app.Run();
     }
 }

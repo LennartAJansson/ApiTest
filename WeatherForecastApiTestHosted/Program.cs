@@ -3,7 +3,7 @@
 using Refit;
 
 IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices((context, services) => AddServices(context, services))
+    .ConfigureServices(AddServices)
     .Build();
 
 using (host)
@@ -21,6 +21,11 @@ using (host)
     await host.WaitForShutdownAsync();
 }
 
-static void AddServices(HostBuilderContext context, IServiceCollection services) 
+static void AddServices(HostBuilderContext context, IServiceCollection services)
     => _ = services.AddRefitClient<IWeatherForecastsApiClient>()
-        .ConfigureHttpClient(c => c.BaseAddress = new Uri(context.Configuration.GetConnectionString("WeatherForecastApiUrl")));
+        .ConfigureHttpClient(c =>
+        {
+            c.BaseAddress = new Uri(context.Configuration.GetConnectionString("WeatherForecastApiUrl")
+                ?? throw new ArgumentException("No URI in configuration"));
+        }
+        );
